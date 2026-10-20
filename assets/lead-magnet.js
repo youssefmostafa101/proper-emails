@@ -104,7 +104,7 @@
     window.clearTimeout(automaticTimer);
     if (!configuration || !providerReady || !configuration.autoOpen || configuration.testMode || automaticShown || recentlyDismissed()) return;
     automaticTimer = window.setTimeout(() => {
-      if (document.hidden || dialog.open || document.querySelector('dialog[open]') || section.closest('.hidden') || recentlyDismissed()) return;
+      if (document.hidden || dialog.open || document.querySelector('dialog[open], .modal.active, .pe-portfolio-modal.is-open') || section.closest('.hidden') || recentlyDismissed()) return;
       automaticShown = true;
       show();
     }, configuration.delayMs);
