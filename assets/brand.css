@@ -1,0 +1,8 @@
+/* Approved loop-mark identity. Shared by the homepage and onboarding. */
+.logo.pe-brand{display:inline-flex;align-items:center;gap:11px;line-height:1;text-decoration:none;letter-spacing:normal}
+.pe-brand__mark{display:block;width:42px;height:42px;flex:0 0 auto}
+.pe-brand__name{display:grid;gap:1px;font-family:var(--sans,Manrope,Arial,sans-serif);font-size:18px;font-weight:800;letter-spacing:-.055em;line-height:1.02}
+.pe-brand__name>span{display:block}
+.pe-brand--small .pe-brand__mark{width:30px;height:30px}.pe-brand--small .pe-brand__name{font-size:13px}
+.pe-lead-book-logo{display:flex;gap:8px;align-items:center}.pe-lead-book-logo img{display:block;width:26px;height:26px}.pe-lead-book-logo .pe-brand__name{font-size:11px;letter-spacing:-.04em}
+@media(max-width:600px){.logo.pe-brand{gap:8px}.pe-brand__mark{width:34px;height:34px}.pe-brand__name{font-size:15px}.pe-brand--small .pe-brand__mark{width:27px;height:27px}.pe-brand--small .pe-brand__name{font-size:12px}}
