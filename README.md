@@ -1,32 +1,28 @@
-# Proper Emails — GitHub Pages staging package
+# Proper Emails website
 
-This package uses the approved **Concept 03 homepage** (including the ORYN-B portfolio) and **Onboarding V2**. It is safe to publish to a PREVIEW URL, not yet to `properemails.com`.
+Live at https://properemails.com using GitHub Pages from main/root. Preserve CNAME and the existing domain configuration. Do not modify portfolio-website or yusef.info.
 
-## Structure
+## Working journeys
 
-- `index.html`: approved public homepage with ORYN-B portfolio and scroll animation.
-- `onboarding/index.html`: approved six-part client onboarding at `/onboarding/` and `/onboarding/#intake`.
-- `assets/Proper-Emails-Complete-Retention-Playbook.pdf`: complete, all-in-one free resource for use in Sender.net Welcome Email #1.
-- `robots.txt`, `.nojekyll`: site metadata.
+- Homepage and all booking CTAs: https://calendly.com/omar-properemails/30min
+- General contact: support@properemails.com
+- Client intake: /onboarding/ using existing https://formspree.io/f/xnjrlakr
+- Platform invitations: yusef@properemails.com, only with agreed scoped permissions
+- Complete 36-page playbook: /assets/Proper-Emails-Complete-Retention-Playbook.pdf
+- Privacy: /privacy/; website terms: /terms/
 
-## What is connected
+The previous five-step local-only booking preview was replaced with direct booking links. The legacy ?page=onboarding route redirects to the connected intake. Portfolio images and all11 gallery entries, including four ORYN-B examples, are preserved. Images were extracted byte-for-byte from data URIs for caching and lazy loading.
 
-- **Calendly**: Final booking step links to `https://calendly.com/omar-properemails/30min`.
-- **Formspree**: The onboarding form posts to the existing `https://formspree.io/f/xnjrlakr` endpoint. Success is only shown when Formspree returns HTTP success; failures display a retry message. This is ready for a real test but account delivery and spam handling have NOT been independently verified.
-- **Platform invitations**: `yusef@properemails.com`. General contact: `support@properemails.com`.
+## Email integration intentionally paused
 
-## Still required before domain launch
+No ESP is configured. The playbook is a direct download without email collection. No ESP scripts load. Approved future popup, inline fields and floating-trigger markup are preserved in the inert peFutureLeadMagnet template. Their CSS, lead-magnet.js and empty lead-magnet-config.js are retained. Do not load the integration scripts or restore capture until the owner approves a provider and the official form/list are tested. The old Sender identifiers must not be reused. Existing six-email draft assets outside the website remain untouched.
 
-1. Create a **NEW separate GitHub repository**, e.g. `proper-emails-website` (do not use `portfolio-website`, which has CNAME `yusef.info`). Upload this package preserving folders.
-2. Enable GitHub Pages from the main branch root; verify the generated `github.io/<repo>/` preview and `.../onboarding/`.
-3. From your signed-in Formspree dashboard, rename the Client Intake form if desired; check its notification recipients, spam settings and that the fields arrive. Test with clearly marked **TEST** values and avoid confidential test credentials.
-4. Set up a separate Sender.net group and form. Connect the first name + email + consent popup, then attach the playbook link to Welcome Email #1. Do not ship a dummy popup.
-5. Confirm Omar's Calendly availability and any qualification data routing; currently qualification choices are displayed but NOT delivered to Omar.
-6. After QA, remove the staging ribbon and homepage `noindex` meta, then attach the custom domain `properemails.com` in GitHub Pages and configure DNS with the registrar. **Never copy `yusef.info` CNAME into this repository.**
-7. If client intake privacy needs authentication, add an actual access-control service; a direct URL and `noindex` do NOT make the page confidential.
+To restore signup later, replace the direct-download section/hero/floating link with the preserved template parts, adapt the chosen official provider embed, test marked internal data, and obtain separate approval before enabling collection or automation. No private API key belongs in frontend code.
 
-## Formspree notes
+## Intake and access
 
-The approved intake currently requires brand assets and a shared folder link. Dropdown 'Other' entries reveal and require explanatory text. The form sends to Formspree only after final-stage client-side validation. Server-side validation and consent policies remain to be reviewed.
+Required and conditional fields are validated in the six-stage form; logo and product imagery are mandatory. Success appears only after Formspree returns HTTP success. Prior end-to-end inbox receipt was confirmed by the owner. The intake is a public URL, not an authenticated portal. Do not submit credentials or customer exports. Provider spam protection remains enabled; no duplicate form was created.
 
-No website is live just because this ZIP exists; uploading/configuring GitHub Pages is a separate action.
+## Deployment checks
+
+Verify HTTPS homepage, intake, privacy, terms, favicon, PDF, all11 portfolio images, mobile navigation and the booking destination after publication. CNAME stays properemails.com. No DNS change or email-provider activation is part of website deployment.
