@@ -1,0 +1,20 @@
+{
+  "name": "Proper Emails",
+  "origin": "https://properemails.com",
+  "theme": "proper",
+  "blogLabel": "Blog",
+  "indexTitle": "Good emails.<br><em>Better decisions.</em>",
+  "indexSeoTitle": "Email Retention Guides for Ecommerce | Proper Emails",
+  "indexIntro": "Practical guides to lifecycle email, thoughtful campaigns and the decisions behind a better customer journey.",
+  "homeLink": "/#services",
+  "homeLabel": "What we do",
+  "navCtaLabel": "Free playbook",
+  "navCtaUrl": "/assets/Proper-Emails-Complete-Retention-Playbook.pdf",
+  "favicon": "/favicon.svg",
+  "footer": "Independent email retention studio for ambitious DTC brands.",
+  "standardTitle": "Specific advice. Honest evidence.",
+  "standardText": "We explain what to check, why it matters and where the limits are. Original examples are labeled. Client results are never invented.",
+  "ctaEyebrow": "THE NEXT USEFUL STEP",
+  "ctaTitle": "Plan the whole customer journey.",
+  "ctaText": "The free Retention Playbook brings lifecycle flows, campaign angles and design principles into one practical field guide. No email address required."
+}
