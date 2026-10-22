@@ -13,8 +13,8 @@
   "keywords": ["cart abandonment vs checkout abandonment", "abandoned cart email flow", "Klaviyo Added to Cart", "Started Checkout flow"],
   "image": "/assets/blog/cart-checkout.png",
   "imageAlt": "An illustrative customer journey from adding a product to cart, to starting checkout, to placing an order",
-  "ctaLabel": "Read the free Retention Playbook",
-  "ctaUrl": "/assets/Proper-Emails-Complete-Retention-Playbook.pdf",
+  "ctaLabel": "Get the free Retention Playbook",
+  "ctaUrl": "/#playbook",
   "editorialNote": "Written by Proper Emails using current Klaviyo documentation. The scenarios, copy examples and review process are educational proposals, not client results or a universal account configuration.",
   "sources": [
     {"label": "Klaviyo: How to create an abandoned cart flow", "url": "https://help.klaviyo.com/hc/en-us/articles/115002779411"},

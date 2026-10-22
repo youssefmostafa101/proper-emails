@@ -20,12 +20,8 @@
   backdrop.setAttribute('aria-hidden','true');
   dialog.before(backdrop);
   dialog.setAttribute('aria-modal','true');
-  let ready=false, returnFocus=null, timer, timeout, automaticallyShown=false;
-  const dismissalKey='properemails.playbook.dismissed.v2';
-  const successKey='properemails.playbook.subscribed.v1';
-  const read=key=>{try{return Number(localStorage.getItem(key));}catch{return 0;}};
-  const remember=key=>{try{localStorage.setItem(key,String(Date.now()));}catch{/* Optional display preference only. */}};
-  const recent=key=>{const t=read(key);return t>0&&Date.now()>=t&&Date.now()-t<7*86400000;};
+  let ready=false, returnFocus=null, timer, timeout, shownThisPage=false;
+  const pageStartedAt=performance.now();
   function status(message,state='ready') {
     document.querySelectorAll('[data-pe-form-panel]').forEach(panel=>{
       const owns=panel.querySelector('[data-pe-form-slot]').contains(mount);
@@ -40,6 +36,7 @@
   }
   function show() {
     if(dialog.open) return;
+    shownThisPage=true;clearTimeout(timer);
     returnFocus=document.activeElement;
     // Native showModal() would make Google's external CAPTCHA iframe inert.
     // This dialog uses a backdrop and keyboard trap so that challenge can work.
@@ -52,11 +49,15 @@
   function close(){if(dialog.open)dialog.close();}
   function schedule() {
     clearTimeout(timer);
-    if(!ready||!config.autoOpen||automaticallyShown||recent(dismissalKey)||recent(successKey))return;
-    timer=setTimeout(()=>{
-      if(document.hidden||dialog.open||recent(dismissalKey)||recent(successKey)||document.querySelector('.pe-portfolio-modal.is-open'))return;
-      automaticallyShown=true;show();
-    },Math.max(10000,Number(config.delayMs)||25000));
+    if(!config.autoOpen||shownThisPage)return;
+    const autoOpen=()=>{
+      if(shownThisPage)return;
+      if(document.hidden||document.querySelector('.pe-portfolio-modal.is-open')){
+        timer=setTimeout(autoOpen,250);return;
+      }
+      show();
+    };
+    timer=setTimeout(autoOpen,Math.max(0,(Number(config.delayMs)||5000)-(performance.now()-pageStartedAt)));
   }
   function finishLoading() {
     const form=mount.querySelector('form');
@@ -68,7 +69,7 @@
     if(email)email.autocomplete='email';
     const consent=form.querySelector('input[name="consent"]');
     if(consent){consent.required=true;consent.setAttribute('aria-required','true');}
-    status('We’ll send the playbook and practical follow-ups. Check your inbox for a confirmation request.');schedule();
+    status('We’ll send the playbook and practical follow-ups. Check your inbox for a confirmation request.');
   }
   const observer=new MutationObserver(finishLoading);
   observer.observe(mount,{childList:true,subtree:true});
@@ -76,7 +77,7 @@
   dialog.querySelector('[data-pe-lead-close]').addEventListener('click',close);
   backdrop.addEventListener('click',close);
   dialog.addEventListener('close',()=>{
-    remember(dismissalKey);backdrop.hidden=true;document.body.classList.remove('pe-lead-modal-open');updateStatus();
+    backdrop.hidden=true;document.body.classList.remove('pe-lead-modal-open');updateStatus();
     if(returnFocus?.isConnected)returnFocus.focus();returnFocus=null;
   });
   document.addEventListener('keydown',event=>{
@@ -90,12 +91,13 @@
   });
   document.addEventListener('emailoctopus:form.success',event=>{
     if(event.detail?.form_id!==config.formId)return;
-    remember(successKey);clearTimeout(timer);
+    shownThisPage=true;clearTimeout(timer);
     status('Signup received. Check your inbox for the playbook or a confirmation request.');
   });
   window.ProperEmailsLeadMagnet=Object.freeze({show,close,getState:()=>({provider:'EmailOctopus',formId:config.formId,ready,placement:'popup'})});
   status('Loading the secure signup form…','loading');
   const embed=document.createElement('script');embed.src=url.href;embed.async=true;embed.dataset.form=config.formId;
-  const fail=()=>{if(!ready){observer.disconnect();status('The signup form could not load. Use the direct playbook link below or try again later.','error');}};
+  const fail=()=>{if(!ready){observer.disconnect();status('The signup form could not load. Refresh this page or contact support@properemails.com for help signing up.','error');}};
   embed.addEventListener('error',fail,{once:true});timeout=setTimeout(fail,30000);mount.append(embed);
+  schedule();
 })();

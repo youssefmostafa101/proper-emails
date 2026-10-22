@@ -7,14 +7,16 @@ Live at https://properemails.com using GitHub Pages from main/root. Preserve CNA
 - Booking: https://calendly.com/omar-properemails/30min
 - Contact: support@properemails.com
 - Client intake: /onboarding/ using https://formspree.io/f/xnjrlakr
-- Complete 36-page playbook: /assets/Proper-Emails-Complete-Retention-Playbook.pdf
+- Playbook signup: /#playbook; the download arrives by email after confirmation.
 - Blog: /blog/; privacy: /privacy/; terms: /terms/
 
 All 11 portfolio gallery entries and the existing intake remain intact. Portfolio concepts do not claim campaign results.
 
 ## EmailOctopus playbook signup
 
-The hero, playbook section and floating button open one branded popup. Its single official EmailOctopus form stays mounted inside the popup so reopening it does not destroy Google's reCAPTCHA frame. First name, email and unchecked explicit marketing consent are required. The direct PDF remains accessible without signup. The popup can appear after 25 seconds and remembers dismissal/success for seven days using timestamps, without saving contact information in browser storage.
+The hero, playbook section and floating button open one branded popup. Its single official EmailOctopus form stays mounted inside the popup so reopening it does not destroy Google's reCAPTCHA frame. First name, email and unchecked explicit marketing consent are required. The popup opens automatically five seconds after page initialization on each visit, independently of the form's loading time. Old dismissal/subscription timestamps no longer suppress it. Opening it manually prevents another automatic interruption on that page load. No popup preferences or contact information are saved in browser storage.
+
+All website and blog playbook CTAs lead to signup. There are no direct PDF download links in the homepage, popup, blog or JavaScript-disabled fallback. The already-tested email sequence retains its PDF URL so confirmed subscribers can download from their email. The PDF remains a public delivery asset; GitHub Pages does not enforce subscriber authentication on the file itself.
 
 - Public form: 9397ff8e-cdfd-11f1-968a-21b524e7af65
 - Official embed: https://eomail5.com/form/9397ff8e-cdfd-11f1-968a-21b524e7af65.js
