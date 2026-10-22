@@ -1,28 +1,53 @@
 # Proper Emails website
 
-Live at https://properemails.com using GitHub Pages from main/root. Preserve CNAME and the existing domain configuration. Do not modify portfolio-website or yusef.info.
+Live at https://properemails.com using GitHub Pages from main/root. Preserve CNAME and the existing domain configuration. Do not modify portfolio-website, yusef.info, or ORYN-B.
 
 ## Working journeys
 
-- Homepage and all booking CTAs: https://calendly.com/omar-properemails/30min
-- General contact: support@properemails.com
-- Client intake: /onboarding/ using existing https://formspree.io/f/xnjrlakr
-- Platform invitations: yusef@properemails.com, only with agreed scoped permissions
+- Booking: https://calendly.com/omar-properemails/30min
+- Contact: support@properemails.com
+- Client intake: /onboarding/ using https://formspree.io/f/xnjrlakr
 - Complete 36-page playbook: /assets/Proper-Emails-Complete-Retention-Playbook.pdf
-- Privacy: /privacy/; website terms: /terms/
+- Blog: /blog/; privacy: /privacy/; terms: /terms/
 
-The previous five-step local-only booking preview was replaced with direct booking links. The legacy ?page=onboarding route redirects to the connected intake. Portfolio images and all11 gallery entries, including four ORYN-B examples, are preserved. Images were extracted byte-for-byte from data URIs for caching and lazy loading.
+All 11 portfolio gallery entries and the existing intake remain intact. Portfolio concepts do not claim campaign results.
 
-## Email integration intentionally paused
+## EmailOctopus playbook signup
 
-No ESP is configured. The playbook is a direct download without email collection. No ESP scripts load. Approved future popup, inline fields and floating-trigger markup are preserved in the inert peFutureLeadMagnet template. Their CSS, lead-magnet.js and empty lead-magnet-config.js are retained. Do not load the integration scripts or restore capture until the owner approves a provider and the official form/list are tested. The old Sender identifiers must not be reused. Existing six-email draft assets outside the website remain untouched.
+The hero, playbook section and floating button open one branded popup. Its single official EmailOctopus form stays mounted inside the popup so reopening it does not destroy Google's reCAPTCHA frame. First name, email and unchecked explicit marketing consent are required. The direct PDF remains accessible without signup. The popup can appear after 25 seconds and remembers dismissal/success for seven days using timestamps, without saving contact information in browser storage.
 
-To restore signup later, replace the direct-download section/hero/floating link with the preserved template parts, adapt the chosen official provider embed, test marked internal data, and obtain separate approval before enabling collection or automation. No private API key belongs in frontend code.
+- Public form: 9397ff8e-cdfd-11f1-968a-21b524e7af65
+- Official embed: https://eomail5.com/form/9397ff8e-cdfd-11f1-968a-21b524e7af65.js
+- List: 2a866816-cd92-11f1-8a08-57fc16d8f9d1
+- Configuration: assets/lead-magnet-octopus-config.js
+- Popup adapter: assets/lead-magnet-octopus.js
 
-## Intake and access
+The form ID is public. No private API key belongs in website code. Legacy Sender scripts remain unused and are never loaded. Do not reuse their identifiers. Keep reCAPTCHA, the provider honeypot, unsubscribe links and the free-plan EmailOctopus attribution intact.
 
-Required and conditional fields are validated in the six-stage form; logo and product imagery are mandatory. Success appears only after Formspree returns HTTP success. Prior end-to-end inbox receipt was confirmed by the owner. The intake is a public URL, not an authenticated portal. Do not submit credentials or customer exports. Provider spam protection remains enabled; no duplicate form was created.
+Double opt-in is enabled: visitors confirm their email before entering the sequence. Sender name is Proper Emails; sender/reply address is hello@properemails.com on the verified domain. Emails also link to support@properemails.com. The account's mailing address stays private; the native SenderInfo tag supplies EmailOctopus's private return-address service. Never hardcode the owner's private address.
 
-## Deployment checks
+## Daily six-email sequence
 
-Verify HTTPS homepage, intake, privacy, terms, favicon, PDF, all11 portfolio images, mobile navigation and the booking destination after publication. CNAME stays properemails.com. No DNS change or email-provider activation is part of website deployment.
+Email 1 delivers the PDF immediately after confirmation. Emails 2–6 follow at 24-hour intervals. This is one six-email sequence per subscriber; it does not repeat indefinitely. The Starter plan's five-step limit is handled with three linked automations:
+
+| Automation | Steps | ID |
+| --- | --- | --- |
+| PE Playbook 01 — Delivery + first check | W01 → wait 1 day → W02 → wait 1 day → trigger 02 | 4a96a890-cd93-11f1-8090-8d47d9604576 |
+| PE Playbook 02 — Flow priorities + campaigns | W03 → wait 1 day → W04 → trigger 03 | 5e575ffc-ce18-11f1-8f8a-23e6c9300b4c |
+| PE Playbook 03 — Design system + next step | wait 1 day → W05 → wait 1 day → W06 | 23786c2c-ce19-11f1-81be-25d001c8b063 |
+
+Automation 01 enrolls newly added contacts whose Source is Form; dashboard additions, API contacts and imports are excluded. Automations 02 and 03 are triggered only by the preceding automation. Repetition is disabled. Enable continuations before the first automation. Pause before editing. No paid upgrade, existing-list broadcast or contact import is required.
+
+All six emails use the owner's exact assets/brand/favicon-1024.png image, a 64-pixel lime mark on a dark rounded square. They include the actual PDF/booking links and native UnsubscribeURL, SenderInfo, and RewardsURL tags.
+
+## Editing and reports
+
+In EmailOctopus, open Automations, pause the relevant flow, click its email and edit Setup or Content. Preview desktop/mobile and send a test to an approved internal address. Resume continuation 03, continuation 02, then automation 01. Do not remove waits or change the source filter accidentally.
+
+EmailOctopus Reports shows sends, delivery, opens, clicks and unsubscribes. Opens are estimates affected by mail-client privacy features. GitHub Pages does not provide a visitor analytics dashboard. No website analytics service has been added.
+
+## Validation and deployment
+
+The owner approved internal testing at yusef@properemails.com and activation after tests pass. All six original test messages were received. The complete signup submission succeeded with the official form and reCAPTCHA. The owner confirmed the confirmation email, automatic W01 delivery with the exact lime logo, and working PDF download. All three automations are active on the daily schedule.
+
+Run node scripts/test-blog.mjs, syntax-check the adapter, check local links and review the diff. After deployment, verify HTTPS homepage, popup, PDF, privacy, intake, booking, blog and portfolio. CNAME stays properemails.com. This migration does not require DNS changes.
