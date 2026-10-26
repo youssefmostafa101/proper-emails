@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {renderSocialLinks} from './lib/social-links.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const config=JSON.parse(fs.readFileSync(path.join(root,'content/blog.json'),'utf8'));
 const check=process.argv.includes('--check');
@@ -53,8 +54,8 @@ const date=d=>new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'long',year:'
 const json=x=>JSON.stringify(x).replace(/</g,'\\u003c');
 const proper=config.theme==='proper';
 const organization={'@type':'Organization','@id':config.origin+'/#organization',name:config.name,url:config.origin+'/',...(config.logo?{logo:{'@type':'ImageObject',url:config.logo,width:1024,height:1024}}:{}),...(config.socials?{sameAs:config.socials.map(s=>s.url)}:{})};
-const socials=()=>config.socials?.length?`<nav class="pe-socials" aria-label="Proper Emails social profiles">${config.socials.map(s=>`<a href="${safeUrl(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.name)} ↗</a>`).join('')}</nav>`:'';
-const analytics=proper?'<link rel="stylesheet" href="/assets/integrations.css"><script defer src="/assets/analytics.js"></script>':'';
+const socials=()=>renderSocialLinks(config.socials);
+const analytics=proper?'<link rel="stylesheet" href="/assets/integrations.css?v=social-icons-1"><script defer src="/assets/analytics.js"></script>':'';
 function brand(){return proper?'<img src="/assets/brand/mark-light.svg" width="38" height="38" alt=""><span class="wordmark"><span>PROPER</span><span>EMAILS</span></span>':`<img src="/assets/blog/oryn-mark.svg" width="48" height="34" alt=""><span class="oryn-wordmark">ORYN-B</span>`;}
 const header=()=>`<a class="skip" href="#main">Skip to content</a><header class="masthead"><div class="shell masthead-inner"><a class="brand" aria-label="${esc(config.name)} homepage" href="/">${brand()}</a><nav aria-label="Main navigation"><a href="${config.homeLink}">${esc(config.homeLabel)}</a><a href="/blog/" aria-current="${'location'}">${esc(config.blogLabel)}</a><a class="nav-cta" href="${safeUrl(config.navCtaUrl)}">${esc(config.navCtaLabel)} <span aria-hidden="true">↗</span></a></nav></div></header>`;
 const footer=()=>`<footer class="site-footer"><div class="shell footer-inner"><a class="brand" href="/" aria-label="${esc(config.name)} homepage">${brand()}</a><p>${esc(config.footer)}</p><nav aria-label="Footer navigation"><a href="/blog/">${esc(config.blogLabel)}</a><a href="/blog/feed.xml">RSS feed</a>${proper?'<a href="/privacy/">Privacy</a><a href="/terms/">Terms</a>':'<a href="/#ingredients">Ingredients</a>'}</nav>${socials()}${proper?'<button class="pe-analytics-settings" type="button" data-pe-analytics-settings>Analytics settings</button>':''}<small>© ${new Date().getUTCFullYear()} ${esc(config.name)}</small></div></footer>`;

@@ -24,7 +24,7 @@ for(const rel of manifest.filter(x=>x.endsWith('.html'))){
  ok(!/\bundefined\b|\[TODO\]|\[INSERT/.test(html),`${rel}: no unfilled placeholders`);
  for(const m of html.matchAll(/\b(?:href|src)="([^"]+)"/g)){
   const u=decode(m[1]);if(/^(https:|data:|mailto:)/.test(u))continue;
-  const [pathname,fragment]=u.split('#');const target=pathname?path.join(root,pathname.replace(/^\//,'')):path.join(root,rel);
+  const [localUrl,fragment]=u.split('#'),pathname=localUrl.split('?')[0];const target=pathname?path.join(root,pathname.replace(/^\//,'')):path.join(root,rel);
   const resolved=fs.existsSync(target)&&fs.statSync(target).isDirectory()?path.join(target,'index.html'):target;
   ok(fs.existsSync(resolved),`${rel}: local target ${u}`);
   if(fragment&&resolved.endsWith('.html')){const dest=fs.readFileSync(resolved,'utf8');ok(dest.includes(`id="${fragment}"`),`${rel}: anchor ${u}`);}
@@ -40,8 +40,8 @@ ok(fs.readFileSync(path.join(root,'CNAME'),'utf8').trim()===new URL(config.origi
 const rss=fs.readFileSync(path.join(root,'blog/feed.xml'),'utf8');ok(rss.includes('<rss version="2.0"'),'RSS feed exists');
 const temp=fs.mkdtempSync(path.join(os.tmpdir(),'brand-blog-test-'));
 try{
- fs.mkdirSync(path.join(temp,'scripts'),{recursive:true});fs.mkdirSync(path.join(temp,'content/posts'),{recursive:true});
- for(const f of ['content/blog.json','content/base-sitemap.xml','scripts/build-blog.mjs'])fs.copyFileSync(path.join(root,f),path.join(temp,f));
+ fs.mkdirSync(path.join(temp,'scripts/lib'),{recursive:true});fs.mkdirSync(path.join(temp,'content/posts'),{recursive:true});
+ for(const f of ['content/blog.json','content/base-sitemap.xml','scripts/build-blog.mjs','scripts/lib/social-links.mjs'])fs.copyFileSync(path.join(root,f),path.join(temp,f));
  const first=fs.readdirSync(path.join(root,'content/posts')).find(x=>x.endsWith('.md'));
  const original=fs.readFileSync(path.join(root,'content/posts',first),'utf8');fs.writeFileSync(path.join(temp,'content/posts',first),original);run(temp);
  const match=original.match(/^---\r?\n([\s\S]+?)\r?\n---\r?\n([\s\S]*)$/),meta=JSON.parse(match[1]);
