@@ -10,11 +10,30 @@
   "homeLabel": "What we do",
   "navCtaLabel": "Free playbook",
   "navCtaUrl": "/#playbook",
-  "favicon": "/favicon.svg",
+  "favicon": "/assets/brand/favicon-1024.png",
   "footer": "Independent email retention studio for ambitious DTC brands.",
   "standardTitle": "Specific advice. Honest evidence.",
   "standardText": "We explain what to check, why it matters and where the limits are. Original examples are labeled. Client results are never invented.",
   "ctaEyebrow": "THE NEXT USEFUL STEP",
   "ctaTitle": "Plan the whole customer journey.",
-  "ctaText": "The free Retention Playbook brings lifecycle flows, campaign angles and design principles into one practical field guide. Sign up and confirm your email address to receive the playbook in your inbox."
+  "ctaText": "The free Retention Playbook brings lifecycle flows, campaign angles and design principles into one practical field guide. Sign up and confirm your email address to receive the playbook in your inbox.",
+  "socials": [
+    {
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/in/proper-emails/"
+    },
+    {
+      "name": "Facebook",
+      "url": "https://www.facebook.com/profile.php?id=61595363733910"
+    },
+    {
+      "name": "X",
+      "url": "https://x.com/properemails"
+    },
+    {
+      "name": "Instagram",
+      "url": "https://www.instagram.com/properemails/"
+    }
+  ],
+  "logo": "https://properemails.com/assets/brand/favicon-1024.png"
 }

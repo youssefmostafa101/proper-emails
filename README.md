@@ -46,7 +46,11 @@ All six emails use the owner's exact assets/brand/favicon-1024.png image, a 64-p
 
 In EmailOctopus, open Automations, pause the relevant flow, click its email and edit Setup or Content. Preview desktop/mobile and send a test to an approved internal address. Resume continuation 03, continuation 02, then automation 01. Do not remove waits or change the source filter accidentally.
 
-EmailOctopus Reports shows sends, delivery, opens, clicks and unsubscribes. Opens are estimates affected by mail-client privacy features. GitHub Pages does not provide a visitor analytics dashboard. No website analytics service has been added.
+EmailOctopus Reports shows sends, delivery, opens, clicks and unsubscribes. Opens are estimates affected by mail-client privacy features. GitHub Pages does not provide a visitor analytics dashboard.
+
+Google Analytics 4 uses the owner's Proper Emails stream `G-0K78J4R1H6`. The shared `assets/analytics.js` loader is included once on the homepage, legal/intake pages and generated blogs. Optional analytics loads after a visitor accepts; the footer's Analytics settings button allows changing that choice. Only that choice is stored for up to 180 days. Advertising features and Google signals are disabled. The loader never reads form answers, redacts non-marketing URL parameters/referrer queries, and does not run on local previews. Browser consent/ad blockers can reduce measured traffic. Site events are not proof of a confirmed subscription, completed booking or purchase.
+
+The four owner-provided social profiles are shown in the footer and in the organization identity metadata. The supplied 1024px lime logo is the primary favicon and organization/publisher logo. Google controls logo selection and recrawl timing; this does not promise a search-result logo or ranking. Keep `content/blog.json` and the blog generator as the source for future posts.
 
 ## Validation and deployment
 
