@@ -26,4 +26,17 @@ const files=['index.html','onboarding/index.html','privacy/index.html','terms/in
 const socialUrls=JSON.parse(fs.readFileSync(new URL('content/blog.json',root),'utf8')).socials.map(s=>s.url);
 for(const file of files){const html=fs.readFileSync(new URL(file,root),'utf8');assert.equal((html.match(/src="\/assets\/analytics\.js"/g)||[]).length,1,file+' has one analytics loader');assert.ok(html.includes('data-pe-analytics-settings'));assert.ok(html.includes('href="/assets/brand/favicon-1024.png"'));for(const url of socialUrls)assert.ok(html.includes(url.replaceAll('&','&amp;')),file+' has '+url);}
 const home=fs.readFileSync(new URL('index.html',root),'utf8');const org=JSON.parse(home.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);assert.equal(org.logo.url,'https://properemails.com/assets/brand/favicon-1024.png');assert.deepEqual(org.sameAs,socialUrls);
+
+const ahrefsSnippet="<script src=\"https://analytics.ahrefs.com/analytics.js\" data-key=\"YZnZ1PcaZa8CDakNyFjhRw\" async></script>";
+for(const file of ['index.html', ...JSON.parse(fs.readFileSync(new URL('content/generated-blog.json',root),'utf8')).filter(p=>p.endsWith('.html')), "blog/posts/ecommerce-welcome-email-series/index.html"]){
+  const html=fs.readFileSync(new URL(file,root),'utf8');
+  assert.equal(html.split(ahrefsSnippet).length-1,1,file+' includes Ahrefs exactly once');
+}
+const homeCsp=home.match(/<meta http-equiv="Content-Security-Policy" content="([^"]+)"/)?.[1]||'';
+assert.match(homeCsp,/script-src [^;]*https:\/\/analytics\.ahrefs\.com/,'Ahrefs scripts permitted by homepage CSP');
+assert.match(homeCsp,/connect-src [^;]*https:\/\/analytics\.ahrefs\.com/,'Ahrefs event requests permitted by homepage CSP');
+const privacyText=fs.readFileSync(new URL('privacy/index.html',root),'utf8');
+assert.ok(privacyText.includes('Ahrefs Web Analytics'),'privacy notice discloses Ahrefs');
+assert.ok(!fs.readFileSync(new URL('onboarding/index.html',root),'utf8').includes(ahrefsSnippet),'client onboarding does not load Ahrefs');
+
 console.log('Analytics behavior passed: consent gating, rejection/revocation, one tag, remembered choice, no preview traffic, URL redaction, ads disabled; '+files.length+' pages have social links, favicon and tracking.');
