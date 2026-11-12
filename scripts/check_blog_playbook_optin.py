@@ -15,36 +15,36 @@ if not BLOG.is_dir():
 for path in sorted(BLOG.rglob("*.html")) if BLOG.is_dir() else []:
     html = path.read_text(encoding="utf-8")
     rel = path.relative_to(ROOT)
-    # The direct URL must not be embedded anywhere in the blog, even as text.
-    if re.search(r"Proper-Emails-Complete-Retention-Playbook\\.pdf", html, re.I):
+    # A direct PDF reference in a blog must not bypass the opt-in.
+    if re.search(r"Proper-Emails-Complete-Retention-Playbook\.pdf", html, re.I):
         errors.append(f"{rel}: direct Playbook PDF URL present")
 
     forbidden = [
-        r"no\\s+(?:email\\s+)?signup\\s+required",
-        r"no\\s+email\\s+address\\s+required",
-        r"direct\\s+(?:PDF\\s+)?download",
-        r"download\\s+the\\s+PDF\\s+directly",
-        r"no\\s+signup\\s+needed",
+        r"no\s+(?:email\s+)?signup\s+required",
+        r"no\s+email\s+address\s+required",
+        r"direct\s+(?:PDF\s+)?download",
+        r"download\s+the\s+PDF\s+directly",
+        r"no\s+signup\s+needed",
     ]
     for pattern in forbidden:
         if re.search(pattern, html, re.I):
-            errors.append(f"{rel}: misleading no-opt-in download wording ({pattern})")
+            errors.append(f"{rel}: misleading no-opt-in wording ({pattern})")
 
-    # Every Playbook-labelled link must go to the existing opt-in, not to a file.
-    links = re.findall(r'<a\\b([^>]*?)>(.*?)</a>', html, re.I | re.S)
+    # Every Playbook-labelled link must point to the same approved opt-in.
+    links = re.findall(r'<a\b([^>]*?)>(.*?)</a>', html, re.I | re.S)
     for attrs, body in links:
         label = re.sub(r"<[^>]+>", " ", body)
         if not re.search(r"playbook", label, re.I):
             continue
-        href = re.search(r'href=["\\\']([^"\\\']+)["\\\']', attrs, re.I)
+        href = re.search(r'''href=["']([^"']+)["']''', attrs, re.I)
         url = href.group(1) if href else ""
         if url != OPTIN:
             errors.append(f"{rel}: Playbook link must use {OPTIN}, found {url!r}")
 
-    if "blog/posts/" in str(rel).replace("\\\\", "/"):
-        cta = re.search(r'<section class="article-cta">([\\s\\S]*?)</section>', html)
-        if cta and f'href="{OPTIN}"' not in cta.group(1):
-            errors.append(f"{rel}: article Playbook CTA must point to {OPTIN}")
+    if rel.as_posix().startswith("blog/posts/"):
+        cta = re.search(r'<section class="article-cta">([\s\S]*?)</section>', html)
+        if not cta or f'href="{OPTIN}"' not in cta.group(1):
+            errors.append(f"{rel}: article CTA must point to {OPTIN}")
 
 homepage = ROOT / "index.html"
 if homepage.is_file():
